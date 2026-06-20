@@ -1,0 +1,483 @@
+diff --git a/src/apk.js b/src/apk.js
+index e747ca3c86006805db05fb7f1f6604d474616281..2ac1b25b2016bd73a57ed0dc9f446dcdae3eb85c 100644
+--- a/src/apk.js
++++ b/src/apk.js
+@@ -1,18 +1,18 @@
+ "use strict";
+ 
+ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
++function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
++function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
++function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
++function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
++function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
++function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
++function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
++function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
++function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
++function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
++function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+ var Zip = require('./zip');
+ var _require = require('./utils'),
+   mapInfoResource = _require.mapInfoResource,
+@@ -20,11 +20,12 @@ var _require = require('./utils'),
+   getBase64FromBuffer = _require.getBase64FromBuffer;
+ var ManifestName = /^androidmanifest\.xml$/;
+ var ResourceName = /^resources\.arsc$/;
++var AdwLib = /^lib\/.+\/libadwaita-1\.so$/;
++var GraniteLib = /^lib\/.+\/libgranite-[0-9]\.so$/;
++var AdaptiveIconParser = require('./xml-parser/adaptive-icon');
+ var ManifestXmlParser = require('./xml-parser/manifest');
+ var ResourceFinder = require('./resource-finder');
+ var ApkParser = /*#__PURE__*/function (_Zip) {
+-  _inherits(ApkParser, _Zip);
+-  var _super = _createSuper(ApkParser);
+   /**
+    * parser for parsing .apk file
+    * @param {String | File | Blob} file // file's path in Node, instance of File or Blob in Browser
+@@ -32,22 +33,27 @@ var ApkParser = /*#__PURE__*/function (_Zip) {
+   function ApkParser(file) {
+     var _this;
+     _classCallCheck(this, ApkParser);
+-    _this = _super.call(this, file);
+-    if (!(_assertThisInitialized(_this) instanceof ApkParser)) {
++    _this = _callSuper(this, ApkParser, [file]);
++    if (!(_this instanceof ApkParser)) {
+       return _possibleConstructorReturn(_this, new ApkParser(file));
+     }
+     return _this;
+   }
+-  _createClass(ApkParser, [{
++  _inherits(ApkParser, _Zip);
++  return _createClass(ApkParser, [{
+     key: "parse",
+     value: function parse() {
+       var _this2 = this;
+       return new Promise(function (resolve, reject) {
+-        _this2.getEntries([ManifestName, ResourceName]).then(function (buffers) {
++        _this2.getEntries([ManifestName, ResourceName, AdwLib, GraniteLib]).then(function (buffers) {
+           if (!buffers[ManifestName]) {
+             throw new Error('AndroidManifest.xml can\'t be found.');
+           }
+           var apkInfo = _this2._parseManifest(buffers[ManifestName]);
++          apkInfo.platform = {
++            granite: !!buffers[GraniteLib],
++            libadwaita: !!buffers[AdwLib]
++          };
+           var resourceMap;
+           if (!buffers[ResourceName]) {
+             resolve(apkInfo);
+@@ -56,20 +62,32 @@ var ApkParser = /*#__PURE__*/function (_Zip) {
+             resourceMap = _this2._parseResourceMap(buffers[ResourceName]);
+             // update apkInfo with resourceMap
+             apkInfo = mapInfoResource(apkInfo, resourceMap);
++            apkInfo.icon = null;
++            apkInfo.adaptiveIcons = null;
+ 
+             // find icon path and parse icon
+             var iconPath = findApkIconPath(apkInfo);
+-            if (iconPath) {
++            if (iconPath.endsWith('.xml')) {
++              _this2.getEntry(iconPath).then(function (adaptiveIconBuffer) {
++                var adaptiveIconParser = new AdaptiveIconParser(adaptiveIconBuffer, resourceMap);
++                var adaptiveIcons = adaptiveIconParser.parse();
++                return _this2._getAdaptiveIconBuffers(adaptiveIcons);
++              }).then(function (iconBuffers) {
++                apkInfo.adaptiveIcons = iconBuffers;
++                resolve(apkInfo);
++              })["catch"](function (e) {
++                resolve(apkInfo);
++                console.warn('[Warning] failed to parse adaptive icon: ', e);
++              });
++            } else if (iconPath) {
+               _this2.getEntry(iconPath).then(function (iconBuffer) {
+                 apkInfo.icon = iconBuffer ? getBase64FromBuffer(iconBuffer) : null;
+                 resolve(apkInfo);
+               })["catch"](function (e) {
+-                apkInfo.icon = null;
+                 resolve(apkInfo);
+                 console.warn('[Warning] failed to parse icon: ', e);
+               });
+             } else {
+-              apkInfo.icon = null;
+               resolve(apkInfo);
+             }
+           }
+@@ -78,6 +96,26 @@ var ApkParser = /*#__PURE__*/function (_Zip) {
+         });
+       });
+     }
++  }, {
++    key: "_getAdaptiveIconBuffers",
++    value: function _getAdaptiveIconBuffers(icons) {
++      var _this3 = this;
++      var iconBuffers = {};
++      var pending = [];
++      var _loop = function _loop() {
++        var key = _Object$keys[_i];
++        pending.push(_this3.getEntry(icons[key]).then(function (buffer) {
++          iconBuffers[key] = getBase64FromBuffer(buffer);
++        }));
++      };
++      for (var _i = 0, _Object$keys = Object.keys(icons); _i < _Object$keys.length; _i++) {
++        _loop();
++      }
++      return Promise.allSettled(pending).then(function () {
++        return iconBuffers;
++      });
++    }
++
+     /**
+      * Parse manifest
+      * @param {Buffer} buffer // manifest file's buffer
+@@ -108,6 +146,5 @@ var ApkParser = /*#__PURE__*/function (_Zip) {
+       }
+     }
+   }]);
+-  return ApkParser;
+ }(Zip);
+ module.exports = ApkParser;
+\ No newline at end of file
+diff --git a/src/index.js b/src/index.js
+index 448332f938069cb62fdddf608087c112bd7d39a5..af241171718f6b315b7c1abef3b6f7487dec32bd 100644
+--- a/src/index.js
++++ b/src/index.js
+@@ -1,10 +1,10 @@
+ "use strict";
+ 
+ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
++function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
++function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
++function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
++function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+ var ApkParser = require('./apk');
+ var IpaParser = require('./ipa');
+@@ -34,12 +34,11 @@ var AppInfoParser = /*#__PURE__*/function () {
+         break;
+     }
+   }
+-  _createClass(AppInfoParser, [{
++  return _createClass(AppInfoParser, [{
+     key: "parse",
+     value: function parse() {
+       return this.parser.parse();
+     }
+   }]);
+-  return AppInfoParser;
+ }();
+ module.exports = AppInfoParser;
+\ No newline at end of file
+diff --git a/src/ipa.js b/src/ipa.js
+index f149b9e14be52c7398db4d7899933d0b2a895fac..55e497aa46a407e4a717fb42b74e825d799bbcdf 100644
+--- a/src/ipa.js
++++ b/src/ipa.js
+@@ -1,24 +1,24 @@
+ "use strict";
+ 
+ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
++function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
++function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
++function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
++function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
++function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
++function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
++function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
++function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
++function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
++function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
++function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
++function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
++function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
++function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
++function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
++function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+ var parsePlist = require('plist').parse;
+ var parseBplist = require('bplist-parser').parseBuffer;
+ var cgbiToPng = require('cgbi-to-png');
+@@ -30,8 +30,6 @@ var _require = require('./utils'),
+ var PlistName = new RegExp('payload/[^/]+?.app/info.plist$', 'i');
+ var ProvisionName = /payload\/.+?\.app\/embedded.mobileprovision/;
+ var IpaParser = /*#__PURE__*/function (_Zip) {
+-  _inherits(IpaParser, _Zip);
+-  var _super = _createSuper(IpaParser);
+   /**
+    * parser for parsing .ipa file
+    * @param {String | File | Blob} file // file's path in Node, instance of File or Blob in Browser
+@@ -39,13 +37,14 @@ var IpaParser = /*#__PURE__*/function (_Zip) {
+   function IpaParser(file) {
+     var _this;
+     _classCallCheck(this, IpaParser);
+-    _this = _super.call(this, file);
+-    if (!(_assertThisInitialized(_this) instanceof IpaParser)) {
++    _this = _callSuper(this, IpaParser, [file]);
++    if (!(_this instanceof IpaParser)) {
+       return _possibleConstructorReturn(_this, new IpaParser(file));
+     }
+     return _this;
+   }
+-  _createClass(IpaParser, [{
++  _inherits(IpaParser, _Zip);
++  return _createClass(IpaParser, [{
+     key: "parse",
+     value: function parse() {
+       var _this2 = this;
+@@ -121,6 +120,5 @@ var IpaParser = /*#__PURE__*/function (_Zip) {
+       return info;
+     }
+   }]);
+-  return IpaParser;
+ }(Zip);
+ module.exports = IpaParser;
+\ No newline at end of file
+diff --git a/src/xml-parser/adaptive-icon.js b/src/xml-parser/adaptive-icon.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..02599b06a48f546ae628559e775cc49a75fdcbef
+--- /dev/null
++++ b/src/xml-parser/adaptive-icon.js
+@@ -0,0 +1,58 @@
++"use strict";
++
++function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
++function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
++function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
++function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
++function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
++function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
++var _require = require('../utils'),
++  mapInfoResource = _require.mapInfoResource,
++  findApkIconPath = _require.findApkIconPath;
++var BinaryXmlParser = require('./binary');
++var ICON_NODE_NAMES = ['foreground', 'background', 'monochrome'];
++var AdaptiveIconParser = /*#__PURE__*/function () {
++  function AdaptiveIconParser(buffer, resourceMap) {
++    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
++    _classCallCheck(this, AdaptiveIconParser);
++    this.buffer = buffer;
++    this.resourceMap = resourceMap;
++    this.xmlParser = new BinaryXmlParser(this.buffer, options);
++  }
++  return _createClass(AdaptiveIconParser, [{
++    key: "parse",
++    value: function parse() {
++      var _this = this;
++      var document = this.xmlParser.parse();
++      var adaptiveIcon = {};
++      if (document.nodeName === 'adaptive-icon') {
++        document.childNodes.forEach(function (element) {
++          if (ICON_NODE_NAMES.includes(element.nodeName)) {
++            adaptiveIcon[element.nodeName] = _this.parseAdaptiveIconElement(element);
++          }
++        });
++        return adaptiveIcon;
++      }
++      return null;
++    }
++  }, {
++    key: "parseAdaptiveIconElement",
++    value: function parseAdaptiveIconElement(element) {
++      var collapsed = Object.create(null);
++      for (var _i = 0, _Array$from = Array.from(element.attributes); _i < _Array$from.length; _i++) {
++        var attr = _Array$from[_i];
++        collapsed[attr.name] = attr.typedValue.value;
++      }
++      var resource = mapInfoResource(collapsed, this.resourceMap);
++      if (resource.drawable) {
++        return findApkIconPath({
++          application: {
++            icon: resource.drawable
++          }
++        });
++      }
++      return '';
++    }
++  }]);
++}();
++module.exports = AdaptiveIconParser;
+\ No newline at end of file
+diff --git a/src/xml-parser/binary.js b/src/xml-parser/binary.js
+index e20cc96e8131078ea81afeb31af46142a52da58e..1b32ed239ffa63da0843fa98c784d3f601599b4b 100644
+--- a/src/xml-parser/binary.js
++++ b/src/xml-parser/binary.js
+@@ -1,10 +1,10 @@
+ "use strict";
+ 
+ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
++function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
++function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
++function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
++function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+ // From https://github.com/openstf/adbkit-apkreader
+ var NodeType = {
+@@ -88,7 +88,7 @@ var BinaryXmlParser = /*#__PURE__*/function () {
+     this.stack = [];
+     this.debug = options.debug || false;
+   }
+-  _createClass(BinaryXmlParser, [{
++  return _createClass(BinaryXmlParser, [{
+     key: "readU8",
+     value: function readU8() {
+       this.debug && console.group('readU8');
+@@ -432,7 +432,7 @@ var BinaryXmlParser = /*#__PURE__*/function () {
+     }
+   }, {
+     key: "readXmlNamespaceStart",
+-    value: function readXmlNamespaceStart( /* header */
++    value: function readXmlNamespaceStart(/* header */
+     ) {
+       this.debug && console.group('readXmlNamespaceStart');
+ 
+@@ -456,7 +456,7 @@ var BinaryXmlParser = /*#__PURE__*/function () {
+     }
+   }, {
+     key: "readXmlNamespaceEnd",
+-    value: function readXmlNamespaceEnd( /* header */
++    value: function readXmlNamespaceEnd(/* header */
+     ) {
+       this.debug && console.group('readXmlNamespaceEnd');
+ 
+@@ -480,7 +480,7 @@ var BinaryXmlParser = /*#__PURE__*/function () {
+     }
+   }, {
+     key: "readXmlElementStart",
+-    value: function readXmlElementStart( /* header */
++    value: function readXmlElementStart(/* header */
+     ) {
+       this.debug && console.group('readXmlElementStart');
+       var node = {
+@@ -558,7 +558,7 @@ var BinaryXmlParser = /*#__PURE__*/function () {
+     }
+   }, {
+     key: "readXmlElementEnd",
+-    value: function readXmlElementEnd( /* header */
++    value: function readXmlElementEnd(/* header */
+     ) {
+       this.debug && console.group('readXmlCData');
+ 
+@@ -577,7 +577,7 @@ var BinaryXmlParser = /*#__PURE__*/function () {
+     }
+   }, {
+     key: "readXmlCData",
+-    value: function readXmlCData( /* header */
++    value: function readXmlCData(/* header */
+     ) {
+       this.debug && console.group('readXmlCData');
+       var cdata = {
+@@ -664,6 +664,5 @@ var BinaryXmlParser = /*#__PURE__*/function () {
+       return this.document;
+     }
+   }]);
+-  return BinaryXmlParser;
+ }();
+ module.exports = BinaryXmlParser;
+\ No newline at end of file
+diff --git a/src/xml-parser/manifest.js b/src/xml-parser/manifest.js
+index a934f3c3cc5781590e1b5ec57406d28f0342cbd5..6b45eb276eccd24fe3db676997d1a71d121324af 100644
+--- a/src/xml-parser/manifest.js
++++ b/src/xml-parser/manifest.js
+@@ -1,10 +1,10 @@
+ "use strict";
+ 
+ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
++function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
++function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
++function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
++function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+ // From https://github.com/openstf/adbkit-apkreader
+ var BinaryXmlParser = require('./binary');
+@@ -17,7 +17,7 @@ var ManifestParser = /*#__PURE__*/function () {
+     this.buffer = buffer;
+     this.xmlParser = new BinaryXmlParser(this.buffer, options);
+   }
+-  _createClass(ManifestParser, [{
++  return _createClass(ManifestParser, [{
+     key: "collapseAttributes",
+     value: function collapseAttributes(element) {
+       var collapsed = Object.create(null);
+@@ -226,6 +226,5 @@ var ManifestParser = /*#__PURE__*/function () {
+       return manifest;
+     }
+   }]);
+-  return ManifestParser;
+ }();
+ module.exports = ManifestParser;
+\ No newline at end of file
+diff --git a/src/zip.js b/src/zip.js
+index 401e65e75c07c57d93635b4830a5a2a54bd9290e..a74ebec44406ff1aa057d6243e45877195db9be2 100644
+--- a/src/zip.js
++++ b/src/zip.js
+@@ -1,10 +1,10 @@
+ "use strict";
+ 
+ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
++function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
++function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
++function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
++function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+ var Unzip = require('isomorphic-unzip');
+ var _require = require('./utils'),
+@@ -32,7 +32,7 @@ var Zip = /*#__PURE__*/function () {
+    * @param {Array} regexps // regexps for matching files
+    * @param {String} type // return type, can be buffer or blob, default buffer
+    */
+-  _createClass(Zip, [{
++  return _createClass(Zip, [{
+     key: "getEntries",
+     value: function getEntries(regexps) {
+       var _this = this;
+@@ -68,6 +68,5 @@ var Zip = /*#__PURE__*/function () {
+       });
+     }
+   }]);
+-  return Zip;
+ }();
+ module.exports = Zip;

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="gtk, android">
+    <meta name="color-scheme" content="light dark">
+    <meta name="fediverse:creator" content="@GeopJr@tech.lgbt">
+    <meta name="theme-color" content="#8ff0a4">
+    <meta property="og:type" content="website">
+    <link rel="preload" href="/assets/fonts/adwaita-sans/adwaita-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <title>GTK 4 Android</title>
+    <meta name="title" content="GTK 4 Android">
+    <meta name="description" content="Unofficial and test demo builds of GTK applications on Android">
+    <link rel="canonical" href="https://gtk4android.geopjr.dev/">
+    <meta property="og:title" content="GTK 4 Android">
+    <meta property="og:description" content="Unofficial and test demo builds of GTK applications on Android">
+    <meta property="og:url" content="https://gtk4android.geopjr.dev">
+    <meta property="og:image" content="https://gtk4android.geopjr.dev/assets/favicons/favicon-96x96.png">
+    <meta property="og:image:type" content="image/png">
+    <link rel="icon" type="image/png" href="/assets/favicons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicons/favicon.svg" />
+    <style>
+        @font-face {
+            font-family: Adwaita Sans;
+            font-display: swap;
+            font-style: normal;
+            font-weight: 100 900;
+            font-stretch: 100%;
+            src:
+                /* local("Adwaita Sans"), local("AdwaitaSans"),*/
+                url(/assets/fonts/adwaita-sans/adwaita-sans-latin.woff2) format("woff2");
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215;
+        }
+
+        @font-face {
+            font-family: "Adwaita Sans Fallback";
+            src: local("Arial");
+            size-adjust: 102.5%;
+            ascent-override: 92%;
+            descent-override: 22%;
+            line-gap-override: 0%;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: inherit;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        button {
+            margin: 0;
+        }
+
+        html,
+        body,
+        p,
+        hr,
+        blockquote,
+        figure,
+        pre,
+        ol,
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img,
+        video {
+            height: auto;
+            max-width: 100%;
+        }
+
+        html {
+            min-height: 100vh;
+            box-sizing: border-box;
+            font-family: 'Adwaita Sans', 'Inter', 'Cantarell', "Adwaita Sans Fallback", system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Ubuntu', 'Noto Sans';
+            background-color: #FAFAFB;
+        }
+
+        footer {
+            background-color: black;
+            color: white;
+            padding: 1rem;
+            min-height: 5rem;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        footer a,
+        footer a:visited {
+            color: #81d0ff;
+            text-decoration-color: #81d0ff;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            margin: 2rem;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            align-self: center;
+        }
+
+        @media only screen and (min-width: 768px) {
+            main {
+                margin: 2rem 6rem;
+                max-width: 70rem;
+            }
+        }
+
+        header {
+            background: linear-gradient(180deg, transparent 0%, black 100%), repeating-linear-gradient(45deg, transparent, transparent 25px, black 25px, black 50px), linear-gradient(180deg, rgba(249, 240, 107, 1) 0%, rgba(245, 194, 17, 1) 100%);
+            min-height: 4rem;
+            text-align: center;
+            color: white;
+            padding: 1rem;
+        }
+
+        header h1 {
+            text-shadow: 0px 0px 10px black;
+            margin-bottom: .5rem;
+        }
+
+        main>section>h2 {
+            font-size: 4em;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .adw>h2 {
+            font-weight: 900;
+        }
+
+        .granite>h2 {
+            font-weight: 300;
+        }
+
+        main>section>div {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: minmax(0, 1fr);
+            grid-template-rows: minmax(0, 1fr);
+            align-items: start;
+        }
+
+        @media only screen and (min-width: 1024px) {
+            main>section>div {
+                grid-template-columns: repeat(3, minmax(320px, 1fr));
+            }
+        }
+
+        @media only screen and (min-width: 768px) and (max-width: 1023px) {
+            main>section>div {
+                grid-template-columns: repeat(2, minmax(320px, 1fr));
+            }
+        }
+
+        main>section>div>a {
+            display: flex;
+            gap: .5rem;
+            transition-duration: 150ms;
+            position: relative;
+        }
+
+        main>section>div>a>img {
+            width: 64px;
+            max-height: 64px;
+            filter: drop-shadow(0px 0px 7px #0002);
+        }
+
+        main>section>div>a,
+        main>section>div>a:visited {
+            color: black;
+            text-decoration: none;
+        }
+
+        main>.adw>div>a {
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        main>section>div>a>div>h3 {
+            font-size: 2em;
+        }
+
+        main>section>div>a>div>span {
+            font-size: 0.8em;
+            opacity: 0.5;
+            position: absolute;
+            z-index: 20;
+            bottom: .3rem;
+            right: .5rem;
+        }
+
+        main>.adw>div>a {
+            background-color: #FFFFFF;
+            box-shadow: 0 0 0 1px rgba(0, 0, 6, 0.03), 0 1px 3px 1px rgba(0, 0, 6, 0.07), 0 2px 6px 2px rgba(0, 0, 6, 0.03);
+        }
+
+        main>.adw>div>a:hover,
+        main>.adw>div>a:focus-visible {
+            background-color: #F9F9F9;
+        }
+
+        main>.adw>div>a:active {
+            background-color: #EFEFEF;
+        }
+
+        main>.gtk>div>a {
+            border-radius: 5px;
+            background: linear-gradient(to top, rgb(246, 245, 244) 2px, rgb(251, 250, 250));
+            border: 1px solid rgb(205, 199, 194);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+            background-color: rgb(218, 214, 210);
+            padding: .5rem;
+        }
+
+        main>.gtk>div>a:hover,
+        main>.gtk>div>a:focus-visible {
+            background: linear-gradient(to top, rgb(214, 209, 205), rgb(232, 230, 227) 1px);
+            background-color: rgb(218, 214, 210);
+        }
+
+        main>.gtk>div>a:active {
+            background: rgb(218, 214, 210);
+            box-shadow: none;
+        }
+
+        main>.granite>div>a {
+            border-radius: 3.666666px;
+            padding: 4.88888px 8.5555555px;
+        }
+
+        main>.granite>div>a:hover,
+        main>.granite>div>a:focus-visible,
+        main>.granite>div>a:active {
+            background-color: rgba(89, 174, 249, 0.25);
+            color: rgb(45, 87, 123)
+        }
+
+        main>.granite>div>a:active {
+            box-shadow: 0 1px rgba(255, 255, 255, 0.3), 0 1px 1px rgba(0, 0, 0, 0.05) inset, 0 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            html {
+                background-color: #222226;
+            }
+
+            main>section>h2 {
+                color: white;
+            }
+
+            main>section>div>a,
+            main>section>div>a:visited {
+                color: white;
+            }
+
+            main>.adw>div>a {
+                background-color: #343437;
+                transition-duration: 150ms;
+            }
+
+            main>.adw>div>a:hover,
+            main>.adw>div>a:focus-visible {
+                background-color: #3A3A3D;
+            }
+
+            main>.adw>div>a:active {
+                background-color: #444447;
+            }
+
+            main>.gtk>div>a {
+                background: linear-gradient(to top, rgb(55, 55, 55) 2px, rgb(58, 58, 58));
+                border-color: rgb(27, 27, 27);
+                background-color: rgb(35, 35, 35);
+            }
+
+            main>.gtk>div>a:hover,
+            main>.gtk>div>a:focus-visible {
+                background: linear-gradient(to top, rgb(48, 48, 48) 20%, rgb(50, 50, 50) 90%);
+                background-color: rgb(35, 35, 35);
+            }
+
+            main>.gtk>div>a:active {
+                background: rgb(35, 35, 35);
+            }
+
+            main>.granite>div>a:hover,
+            main>.granite>div>a:focus-visible,
+            main>.granite>div>a:active {
+                background-color: rgba(48, 138, 224, 0.5);
+                color: rgb(216, 236, 254)
+            }
+
+            main>.granite>div>a:active {
+                box-shadow: 0 1px rgba(255, 255, 255, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05) inset, 0 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>GTK 4 Android</h1>
+        <p><b>Unofficial</b> and <b>test demo</b> builds of GTK applications on Android. Don't bother upstreams.</p>
+    </header>
+    <main>
+        <section class="adw">
+            <h2>libadwaita</h2>
+            <div>
+                <!-- GTK4ANDROID:ADW:CARDS -->
+            </div>
+        </section>
+        <section class="granite">
+            <h2>Granite</h2>
+            <div>
+                <!-- GTK4ANDROID:GRANITE:CARDS -->
+            </div>
+        </section>
+        <section class="gtk">
+            <h2>GTK</h2>
+            <div>
+                <!-- GTK4ANDROID:GTK:CARDS -->
+            </div>
+        </section>
+    </main>
+    <footer>
+        <span>Website and builds brought to you by <a href="https://geopjr.dev/" rel="noopener noreferrer">GeopJr</a>. Support the development of GTK for Android by <a href="https://github.com/sponsors/sp1ritCS" rel="noopener noreferrer">sponsoring Florian "sp1rit"</a>.</span>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "gtk4android",
+  "version": "1.0.0",
+  "description": "",
+  "main": "generator.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "packageManager": "pnpm@10.18.3",
+  "dependencies": {
+    "app-info-parser": "^1.1.6"
+  }
+}

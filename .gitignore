@@ -1,0 +1,5 @@
+node_modules/
+index.html
+deploy
+minify
+bash_completion
