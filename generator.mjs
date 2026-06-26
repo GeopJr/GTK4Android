@@ -20,8 +20,8 @@ import { join, basename } from "path"
  */
 function toAnchor(app_id, name, version, creation) {
     return `
-    <a href="/apks/${app_id}.apk">
-        <img src="/images/${app_id}.svg" alt="" aria-hidden="true" />
+    <a href="/apks/${app_id}.apk" draggable="false">
+        <img src="/images/${app_id}.svg" alt="" aria-hidden="true" draggable="false" />
         <div>
             <h3>${name}</h3>
             <p>Date: ${creation}</p>
