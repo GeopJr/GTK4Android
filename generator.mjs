@@ -53,7 +53,7 @@ for (let i = 0; i < files.length; i += concurrency) {
     const batchResults = await Promise.all(
         batch.map(file => new AppInfoParser(join("apks", file)).parse().then(async x => {
             x.file = file
-            x.creation = new Date((await stat(join("apks", file))).birthtimeMs).toISOString().slice(0, 10)
+            x.creation = new Date((await stat(join("apks", file))).mtimeMs).toISOString().slice(0, 10)
             return x
         }))
     )
