@@ -60,6 +60,7 @@ for (let i = 0; i < files.length; i += concurrency) {
             if (basename(x.file, ".apk") == "dev.geopjr.Tuba") {
                 x.creation = "Nightly"
                 x.force_url = "https://nightly.link/GeopJr/Tuba/workflows/android/main/apks.zip"
+                x.versionName = "main"
             }
             return x
         }))
