@@ -16,11 +16,13 @@ import { join, basename } from "path"
  * @param {string} name The app name
  * @param {string} version The app version
  * @param {string} creation The datetime the apk was created
+ * @param {string?} force_url Override the template url
  * @returns {string}
  */
-function toAnchor(app_id, name, version, creation) {
+function toAnchor(app_id, name, version, creation, force_url = null) {
+    const url = force_url ?? `/apks/${app_id}.apk`
     return `
-    <a href="/apks/${app_id}.apk" draggable="false">
+    <a href="${url}" draggable="false">
         <img src="/images/${app_id}.svg" alt="" aria-hidden="true" draggable="false" />
         <div>
             <h3>${name}</h3>
@@ -54,6 +56,11 @@ for (let i = 0; i < files.length; i += concurrency) {
         batch.map(file => new AppInfoParser(join("apks", file)).parse().then(async x => {
             x.file = file
             x.creation = new Date((await stat(join("apks", file))).mtimeMs).toISOString().slice(0, 10)
+
+            if (basename(x.file, ".apk") == "dev.geopjr.Tuba") {
+                x.creation = "Nightly"
+                x.force_url = "https://nightly.link/GeopJr/Tuba/workflows/android/main/apks.zip"
+            }
             return x
         }))
     )
@@ -69,7 +76,7 @@ const anchors = {
 
 results.sort((a, b) => a.application.label[0].localeCompare(b.application.label[0])).forEach(metadata => {
     anchors[metadata.platform.granite ? "granite" : (metadata.platform.libadwaita ? "adw" : "gtk")].push(
-        toAnchor(basename(metadata.file, ".apk"), metadata.application.label[0], metadata.versionName, metadata.creation)
+        toAnchor(basename(metadata.file, ".apk"), metadata.application.label[0], metadata.versionName, metadata.creation, metadata.force_url)
     )
 })
 
